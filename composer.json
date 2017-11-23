@@ -1,0 +1,26 @@
+{
+    "name": "printerous/tax-engine",
+    "description": "Tax and price calculator",
+    "keywords": [
+        ""
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Genin",
+            "email": "genin@printerous.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6",
+        "nesbot/carbon": "^1.22"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Printerous\\Library\\": "src/"
+        }
+    }
+}
