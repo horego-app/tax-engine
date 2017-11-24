@@ -8,23 +8,82 @@ class TaxEngineTest extends TestCase
 		$engine = new TaxEngine();
 		$rules_arr = ['precision' => 0, 'value' => '10', 'type' => 'percent'];
 		$rules = json_encode($rules_arr);
-		$this->assertEquals(1000,$engine->tax('taxExclusive',10000,$rules));
+		$this->assertEquals(1000,$engine->taxExclusive(10000,$rules));
 	}
 	function testExclusive2(){
 		$engine = new TaxEngine();
 		$rules_arr = ['precision' => 0, 'value' => '10', 'type' => 'percent'];
 		$rules = json_encode($rules_arr);
-		$this->assertEquals(85472,$engine->tax('taxExclusive',854722,$rules));
+		$this->assertEquals(85472,$engine->taxExclusive(854722,$rules));
 	}
 	function testExclusive3(){
 		$engine = new TaxEngine();
 		$rules_arr = ['precision' => 0, 'value' => '10', 'type' => 'percent'];
 		$rules = json_encode($rules_arr);
-		$this->assertEquals(85478,$engine->tax('taxExclusive',854779,$rules));
+		$this->assertEquals(85478,$engine->taxExclusive(854779,$rules));
 	}
-
+	function testExclusive4(){
+		$engine = new TaxEngine();
+		$rules_arr = ['precision' => 2, 'value' => '10', 'type' => 'percent'];
+		$rules = json_encode($rules_arr);
+		$this->assertEquals(0.24,$engine->taxExclusive(2.35,$rules));
+	}
+	function testExclusive5(){
+		$engine = new TaxEngine();
+		$rules_arr = ['precision' => 0, 'value' => '10', 'type' => 'percent'];
+		$rules = json_encode($rules_arr);
+		$this->assertEquals(0,$engine->taxExclusive(2.35,$rules));
+	}
 	function testInclusive(){
 		$engine = new TaxEngine();
-		$this->assertEquals('Inclusive', $engine->tax('taxInclusive',1000,true));
+		$rules_arr = ['precision' => 0, 'value' => '10', 'type' => 'percent'];
+		$rules = json_encode($rules_arr);
+		$this->assertEquals(91, $engine->taxInclusive(1000,$rules));
+	}
+
+	function testInclusive2(){
+		$engine = new TaxEngine();
+		$rules_arr = ['precision' => 0, 'value' => '10', 'type' => 'percent'];
+		$rules = json_encode($rules_arr);
+		$this->assertEquals(1368, $engine->taxInclusive(15050,$rules));
+	}
+	function testInclusive3(){
+		$engine = new TaxEngine();
+		$rules_arr = ['precision' => 2, 'value' => '10', 'type' => 'percent'];
+		$rules = json_encode($rules_arr);
+		$this->assertEquals(90.91, $engine->taxInclusive(1000,$rules));
+	}
+
+	function testExclusivePrice()
+	{
+		$engine = new TaxEngine();
+		$this->assertEquals(['price_before_tax' => 10000,'price_after_tax' => 11000], $engine->taxExclusivePrice(1000,10000));
+	}
+
+	function testExclusiveResult()
+	{
+		$engine = new TaxEngine();
+		$rules_arr = ['precision' => 0, 'value' => '10', 'type' => 'percent'];
+		$rules = json_encode($rules_arr);
+		$expected_result = ['price_before_tax' => 10000, 'price_after_tax' => 11000, 'tax' => 1000];
+		$this->assertEquals($expected_result,$engine->tax('taxExclusive',10000, $rules));
+	}
+
+	function testExclusiveResult2()
+	{
+		$engine = new TaxEngine();
+		$rules_arr = ['precision' => 0, 'value' => '10', 'type' => 'percent'];
+		$rules = json_encode($rules_arr);
+		$expected_result = ['price_before_tax' => 181818, 'price_after_tax' => 200000, 'tax' => 18182];
+		$this->assertEquals($expected_result,$engine->tax('taxExclusive',181818, $rules));
+	}
+
+	function testInclusiveResult()
+	{
+		$engine = new TaxEngine();
+		$rules_arr = ['precision' => 0, 'value' => '10', 'type' => 'percent'];
+		$rules = json_encode($rules_arr);
+		$expected_result = ['price_before_tax' => 181818, 'price_after_tax' => 200000, 'tax' => 18182];
+		$this->assertEquals($expected_result,$engine->tax('taxInclusive',200000, $rules));
 	}
 }
