@@ -7,7 +7,7 @@ class TaxEngine
 {
 	function tax($policy,$price,$rules)
 	{
-		if(stripos($policy, 'free') !== false){
+		if(stripos($policy, 'free') !== false || stripos($policy, 'no tax') !== false){
 			$policy = 'taxFree';
 		} else if(stripos($policy,'exclusive') !== false) {
 			$policy = 'taxExclusive';

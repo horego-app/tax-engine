@@ -86,4 +86,21 @@ class TaxEngineTest extends TestCase
 		$expected_result = ['price_before_tax' => 90909, 'price_after_tax' => 100000, 'tax' => 9091];
 		$this->assertEquals($expected_result,$engine->tax('taxInclusive',100000, $rules));
 	}
+
+	function testNoTaxResult()
+	{
+		$engine = new TaxEngine();
+		$rules_arr = ['precision' => 0, 'value' => '10', 'type' => 'percent'];
+		$rules = json_encode($rules_arr);
+		$expected_result = ['price_before_tax' => 100000, 'price_after_tax' => 100000, 'tax' => 0];
+		$this->assertEquals($expected_result,$engine->tax('no tax',100000, $rules));
+	}
+	function testTaxFreeResult()
+	{
+		$engine = new TaxEngine();
+		$rules_arr = ['precision' => 0, 'value' => '10', 'type' => 'percent'];
+		$rules = json_encode($rules_arr);
+		$expected_result = ['price_before_tax' => 100000, 'price_after_tax' => 100000, 'tax' => 0];
+		$this->assertEquals($expected_result,$engine->tax('tax free',100000, $rules));
+	}
 }
